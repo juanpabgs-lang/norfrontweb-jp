@@ -306,6 +306,26 @@
 }
 
 @layer utilities {
+  /* Home2 editorial reveal — calm rise + fade, no blur, no overshoot */
+  .reveal2 {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s cubic-bezier(0.2, 0, 0.2, 1), transform 0.65s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+
+  .reveal2-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal2 {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   /* Horizontal scroll animation for integrations */
   @keyframes scroll-x {
     0% {

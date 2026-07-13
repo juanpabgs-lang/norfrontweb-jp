@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
-import norfrontLogo from "@/assets/Untitled design (7).png";
 
 export function Footer() {
   return (
-    <footer className="relative z-10 border-t border-border/40">
+    <footer className="relative z-10 bg-black border-t border-white/10">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
           <div className="md:col-span-4">
-            <img src={norfrontLogo} alt="Norfront Group" className="h-14 w-auto mb-4" />
+            <div className="mb-4">
+              <span className="text-lg font-semibold tracking-[-0.01em] text-white">Norfront Group</span>
+              <span className="block font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-white/35 mt-1">
+                AI Venture Holdings
+              </span>
+            </div>
             <p className="text-sm text-muted-foreground/60 leading-relaxed max-w-xs">
               A holding company building specialized AI companies for enterprise operations. One vertical at a time.
             </p>
