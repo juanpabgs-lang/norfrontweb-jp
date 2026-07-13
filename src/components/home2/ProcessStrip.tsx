@@ -34,7 +34,7 @@ export function ProcessStrip() {
     <section className="bg-black py-16 sm:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         <SectionHeading
-          index="04"
+          index="05"
           label="How We Work"
           title={
             <>

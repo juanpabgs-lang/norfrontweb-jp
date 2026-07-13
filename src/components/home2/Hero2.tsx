@@ -1,27 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { OpsConsole } from "./OpsConsole";
-import geminiLogo from "@/assets/Gemini.png";
-import oracleLogo from "@/assets/oracle.png";
-import salesforceLogo from "@/assets/salesforce.png";
-import slackLogo from "@/assets/slack.png";
-import sqlLogo from "@/assets/sql (1).png";
-import pgvectorLogo from "@/assets/pgvector.png";
 
 const facts = [
   { value: "09", label: "Vertical brands" },
   { value: "02", label: "Live in production" },
   { value: "01", label: "In development" },
   { value: "4 wks", label: "Discovery to production" },
-];
-
-const stack = [
-  { src: geminiLogo, alt: "Gemini" },
-  { src: oracleLogo, alt: "Oracle" },
-  { src: salesforceLogo, alt: "Salesforce" },
-  { src: slackLogo, alt: "Slack" },
-  { src: sqlLogo, alt: "SQL" },
-  { src: pgvectorLogo, alt: "pgvector" },
 ];
 
 // Editorial split hero: the claim on the left, the product running on the
@@ -95,12 +80,20 @@ export function Hero2() {
           {/* The product, live */}
           <div className="lg:col-span-5 animate-fade-in-delay-3">
             <OpsConsole />
+            <div className="mt-3 flex items-baseline gap-3">
+              <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.18em] text-[#7ec8e3]/70">
+                Fig. 01
+              </span>
+              <span className="font-['JetBrains_Mono'] text-[10px] text-white/30">
+                Live production telemetry — Pulsara, Vision Group
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Operating balance + stack strip */}
-        <div className="relative border-t border-white/10 pb-14 pt-7 animate-fade-in-delay-3">
-          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:grid-cols-6 items-start">
+        {/* Operating balance */}
+        <div className="relative border-t border-white/10 pt-7 animate-fade-in-delay-3">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 items-start">
             {facts.map((fact) => (
               <div key={fact.label}>
                 <div className="font-['JetBrains_Mono'] text-xl sm:text-2xl tracking-tight text-white">
@@ -109,17 +102,31 @@ export function Hero2() {
                 <div className="mt-1.5 text-xs leading-snug text-white/40">{fact.label}</div>
               </div>
             ))}
-            <div className="col-span-2 hidden lg:flex items-center justify-end gap-6 self-center">
-              {stack.slice(0, 4).map((logo) => (
-                <img
-                  key={logo.alt}
-                  src={logo.src}
-                  alt={logo.alt}
-                  className="h-5 w-auto opacity-30 grayscale transition-opacity duration-300 hover:opacity-70"
-                />
-              ))}
-            </div>
           </div>
+        </div>
+
+        {/* Stack strip: models we orchestrate, systems we integrate */}
+        <div className="relative flex flex-col gap-4 border-t border-white/[0.07] py-6 mt-10 pb-12 sm:flex-row sm:items-center sm:gap-10 animate-fade-in-delay-3">
+          <div className="flex items-baseline gap-4">
+            <span className="font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.2em] text-white/25 shrink-0">
+              Models
+            </span>
+            <span className="text-[13px] font-medium tracking-wide text-white/40">
+              Claude&ensp;·&ensp;Gemini&ensp;·&ensp;GPT
+            </span>
+          </div>
+          <span className="hidden sm:block h-4 w-px bg-white/10" />
+          <div className="flex items-baseline gap-4">
+            <span className="font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.2em] text-white/25 shrink-0">
+              Systems
+            </span>
+            <span className="text-[13px] font-medium tracking-wide text-white/40">
+              Oracle&ensp;·&ensp;Salesforce&ensp;·&ensp;ServiceNow&ensp;·&ensp;SAP&ensp;·&ensp;Slack
+            </span>
+          </div>
+          <span className="sm:ml-auto font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.16em] text-white/20">
+            Model-agnostic by design
+          </span>
         </div>
       </div>
     </section>

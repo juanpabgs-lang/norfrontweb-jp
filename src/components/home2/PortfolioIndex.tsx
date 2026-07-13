@@ -37,7 +37,7 @@ export function PortfolioIndex() {
     <section className="bg-black py-16 sm:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         <SectionHeading
-          index="02"
+          index="03"
           label="The Portfolio"
           title={
             <>
