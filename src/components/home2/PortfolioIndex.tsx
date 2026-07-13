@@ -34,7 +34,7 @@ export function PortfolioIndex() {
   const listRef = useReveal(0.1);
 
   return (
-    <section className="bg-black py-24 sm:py-32">
+    <section className="bg-black py-16 sm:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         <SectionHeading
           index="02"
@@ -55,7 +55,7 @@ export function PortfolioIndex() {
             <Link
               key={brand.name}
               to="/partners"
-              className="group grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_11rem_1fr_auto_2rem] items-center gap-3 sm:gap-6 border-b border-white/10 py-5 sm:py-6 px-1 sm:px-2 hover:bg-white/[0.03] transition-colors"
+              className="group relative grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3.5rem_11rem_1fr_auto_2rem] items-center gap-3 sm:gap-6 border-b border-white/10 py-5 sm:py-6 px-2 sm:px-3 transition-all duration-300 hover:bg-white/[0.035] hover:pl-4 sm:hover:pl-5 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-[#7ec8e3]/0 before:transition-colors before:duration-300 hover:before:bg-[#7ec8e3]/70"
             >
               <span className="font-['JetBrains_Mono'] text-xs text-white/25">
                 {String(i + 1).padStart(2, "0")}

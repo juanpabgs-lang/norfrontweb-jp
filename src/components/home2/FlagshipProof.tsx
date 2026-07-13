@@ -31,7 +31,7 @@ export function FlagshipProof() {
   const gridRef = useReveal(0.1);
 
   return (
-    <section className="bg-black py-24 sm:py-32">
+    <section className="bg-black py-16 sm:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         <SectionHeading
           index="01"
@@ -47,10 +47,13 @@ export function FlagshipProof() {
           intro="AI complaint intelligence for Italy's largest optical retailer. Gemini-powered classification wired into Oracle and Salesforce, processing 10,000+ complaints in production."
         />
 
-        <div ref={gridRef} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+        <div ref={gridRef} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-black p-8 sm:p-10">
-              <div className="font-['JetBrains_Mono'] text-3xl sm:text-[2.5rem] leading-none text-[#7ec8e3] mb-4">
+            <div
+              key={stat.label}
+              className="card-lift border border-white/10 bg-white/[0.025] p-8 sm:p-9"
+            >
+              <div className="font-['JetBrains_Mono'] text-3xl sm:text-[2.4rem] leading-none text-[#7ec8e3] mb-4 [text-shadow:0_0_28px_rgba(126,200,227,0.35)]">
                 {stat.value}
               </div>
               <p className="text-sm font-medium text-white mb-1.5">{stat.label}</p>

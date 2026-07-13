@@ -31,7 +31,7 @@ export function ProcessStrip() {
   const rowRef = useReveal(0.1);
 
   return (
-    <section className="bg-black py-24 sm:py-32">
+    <section className="bg-black py-16 sm:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         <SectionHeading
           index="04"

@@ -35,7 +35,7 @@ export function ClosingCTA() {
         <div className="mt-10 flex justify-center">
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-10 py-4 text-sm font-medium bg-white text-black hover:bg-[#e8f4f9] transition-colors"
+            className="group inline-flex items-center gap-2 px-10 py-4 text-sm font-medium bg-white text-black transition-all duration-300 hover:bg-[#e9f5fa] hover:shadow-[0_0_40px_-8px_rgba(126,200,227,0.6)]"
           >
             Book a Call
             <ArrowRight size={16} />
