@@ -20,6 +20,7 @@ import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import Jobs from "./pages/Jobs";
 import Partners from "./pages/Partners";
+import CarbonSpike from "./pages/CarbonSpike";
 
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/carbon" element={<CarbonSpike />} />
 
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
