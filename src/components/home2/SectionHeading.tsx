@@ -13,7 +13,11 @@ export function SectionHeading({ index, label, title, intro }: SectionHeadingPro
 
   return (
     <div ref={ref}>
-      <div className="flex items-baseline gap-4 border-t border-white/10 pt-5 mb-10 sm:mb-14">
+      {/* Light seam: gradient rule with a glowing origin tick */}
+      <div className="relative h-px w-full bg-gradient-to-r from-[#7ec8e3]/50 via-white/10 to-transparent">
+        <span className="absolute -top-[1.5px] left-0 h-1 w-1 rounded-full bg-[#7ec8e3] shadow-[0_0_12px_2px_rgba(126,200,227,0.5)]" />
+      </div>
+      <div className="flex items-baseline gap-4 pt-5 mb-10 sm:mb-14">
         <span className="font-['JetBrains_Mono'] text-xs text-[#7ec8e3] tracking-[0.2em]">{index}</span>
         <span className="font-['JetBrains_Mono'] text-xs uppercase tracking-[0.2em] text-white/40">{label}</span>
       </div>

@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Hero2 } from "@/components/home2/Hero2";
+import { BrandMarquee } from "@/components/home2/BrandMarquee";
 import { FlagshipProof } from "@/components/home2/FlagshipProof";
 import { ProductShowcase } from "@/components/home2/ProductShowcase";
 import { PortfolioIndex } from "@/components/home2/PortfolioIndex";
@@ -11,6 +12,7 @@ const Index = () => {
   return (
     <Layout>
       <Hero2 />
+      <BrandMarquee />
       <FlagshipProof />
       <ProductShowcase />
       <PortfolioIndex />

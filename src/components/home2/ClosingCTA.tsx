@@ -18,6 +18,35 @@ export function ClosingCTA() {
       />
 
       <div ref={ref} className="container relative mx-auto px-5 sm:px-6 lg:px-8 text-center">
+        {/* Backlit Norfront mark — the Vercel-triangle moment */}
+        <div className="relative mx-auto mb-10 flex h-24 w-24 items-center justify-center">
+          <div
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background: "radial-gradient(circle at 50% 38%, rgba(126,200,227,0.5), rgba(126,200,227,0.12) 42%, transparent 68%)",
+              filter: "blur(14px)",
+            }}
+          />
+          <svg viewBox="0 0 64 64" className="relative h-14 w-14" aria-hidden="true">
+            <path
+              d="M20 14 L44 32 L20 50"
+              fill="none"
+              stroke="#0a0a0c"
+              strokeWidth="11"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M20 14 L44 32 L20 50"
+              fill="none"
+              stroke="white"
+              strokeWidth="7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
         <p className="font-['JetBrains_Mono'] text-[11px] sm:text-xs uppercase tracking-[0.24em] text-white/40 mb-8">
           Start Here
         </p>
