@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { Inbox, ListFilter, AlertTriangle, BarChart3, Settings2, Plug, Search } from "lucide-react";
-import heroBgTall from "@/assets/hero-bg-tall.png";
 
 type Row = {
   id: string;
@@ -8,17 +7,16 @@ type Row = {
   cat: string;
   catColor: string;
   conf: string;
-  route: string;
   status: "Routed" | "Processing" | "Escalated";
 };
 
 const rows: Row[] = [
-  { id: "CMP-4821", text: "Lens coating peeling after 3 weeks — store #214", cat: "Product Quality", catColor: "#7ec8e3", conf: "97.1%", route: "Quality Ops", status: "Routed" },
-  { id: "CMP-4820", text: "Progressive lens prescription mismatch", cat: "Clinical", catColor: "#a78bfa", conf: "98.0%", route: "Clinical Review", status: "Routed" },
-  { id: "CMP-4819", text: "Refund unresolved for 7 days, customer recontact", cat: "Escalation", catColor: "#f87171", conf: "94.6%", route: "Store Manager", status: "Escalated" },
-  { id: "CMP-4818", text: "Delivery window missed on reorder IT-88412", cat: "Fulfillment", catColor: "#fbbf24", conf: "95.8%", route: "Logistics", status: "Routed" },
-  { id: "CMP-4817", text: "Frame adjustment complaint, second visit", cat: "Service", catColor: "#34d399", conf: "91.9%", route: "Store Ops", status: "Processing" },
-  { id: "CMP-4816", text: "Billing mismatch between invoice and receipt", cat: "Billing", catColor: "#fb923c", conf: "96.2%", route: "Finance", status: "Routed" },
+  { id: "CMP-4821", text: "Lens coating peeling after 3 weeks — store #214", cat: "Product Quality", catColor: "#7ec8e3", conf: "97.1%", status: "Routed" },
+  { id: "CMP-4820", text: "Progressive lens prescription mismatch", cat: "Clinical", catColor: "#a78bfa", conf: "98.0%", status: "Routed" },
+  { id: "CMP-4819", text: "Refund unresolved for 7 days, customer recontact", cat: "Escalation", catColor: "#f87171", conf: "94.6%", status: "Escalated" },
+  { id: "CMP-4818", text: "Delivery window missed on reorder IT-88412", cat: "Fulfillment", catColor: "#fbbf24", conf: "95.8%", status: "Routed" },
+  { id: "CMP-4817", text: "Frame adjustment complaint, second visit", cat: "Service", catColor: "#34d399", conf: "91.9%", status: "Processing" },
+  { id: "CMP-4816", text: "Billing mismatch between invoice and receipt", cat: "Billing", catColor: "#fb923c", conf: "96.2%", status: "Routed" },
 ];
 
 const nav = [
@@ -36,15 +34,29 @@ const statusStyle: Record<Row["status"], string> = {
   Escalated: "text-[#f87171] border-[#f87171]/25 bg-[#f87171]/[0.06]",
 };
 
+// Norfront OS: nine companies as apps. Pulsara center — the zoom target.
+const apps = [
+  { code: "AU", name: "Audera", state: "designed" },
+  { code: "CO", name: "Covera", state: "designed" },
+  { code: "LE", name: "Legara", state: "designed" },
+  { code: "PR", name: "Propera", state: "live" },
+  { code: "PU", name: "Pulsara", state: "live", target: true },
+  { code: "TR", name: "Tradara", state: "dev" },
+  { code: "ON", name: "Onvara", state: "designed" },
+  { code: "ME", name: "Medivex", state: "designed" },
+  { code: "LS", name: "Leasara", state: "designed" },
+];
+
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
-// 02 — The Mercury transition, Norfront edition: scroll pushes the camera
-// through the doorway of light; the operations console rises to meet you.
+// 02 — Zoom into the machine: a laptop running Norfront OS with nine apps;
+// the camera dives through the Pulsara app into the live console.
 export function ProductShowcase() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLImageElement>(null);
-  const dimRef = useRef<HTMLDivElement>(null);
-  const captionRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLElement>(null);
+  const capRef = useRef<HTMLDivElement>(null);
+  const laptopSceneRef = useRef<HTMLDivElement>(null);
+  const laptopRef = useRef<HTMLDivElement>(null);
+  const bloomRef = useRef<HTMLDivElement>(null);
   const consoleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,13 +65,12 @@ export function ProductShowcase() {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
-      // No pin theatrics: show the console plainly.
-      if (captionRef.current) captionRef.current.style.opacity = "1";
+      if (capRef.current) capRef.current.style.opacity = "1";
+      if (laptopSceneRef.current) laptopSceneRef.current.style.display = "none";
       if (consoleRef.current) {
         consoleRef.current.style.opacity = "1";
         consoleRef.current.style.transform = "none";
       }
-      if (dimRef.current) dimRef.current.style.opacity = "0.85";
       return;
     }
 
@@ -71,27 +82,35 @@ export function ProductShowcase() {
       if (total <= 0) return;
       const p = clamp(-rect.top / total, 0, 1);
 
-      // Camera pushes into the doorway
-      if (bgRef.current) {
-        bgRef.current.style.transform = `scale(${1.08 + p * 0.55})`;
-        bgRef.current.style.opacity = String(clamp(1 - (p - 0.55) / 0.35, 0.12, 1));
+      // Caption: present, then drifts away as the dive begins
+      if (capRef.current) {
+        const c = clamp(1 - (p - 0.18) / 0.14, 0, 1);
+        capRef.current.style.opacity = String(c);
+        capRef.current.style.transform = `translateY(${-clamp((p - 0.18) / 0.14, 0, 1) * 60}px)`;
       }
-      // Darkness rises as we pass through
-      if (dimRef.current) {
-        dimRef.current.style.opacity = String(0.25 + p * 0.75);
+
+      // The dive: laptop scales from resting size through the screen
+      if (laptopRef.current) {
+        const z = clamp((p - 0.22) / 0.5, 0, 1);
+        const ez = z * z * (3 - 2 * z); // smoothstep
+        laptopRef.current.style.transform = `scale(${0.94 + ez * 4.1})`;
       }
-      // Opening caption drifts up and out
-      if (captionRef.current) {
-        const c = clamp(1 - p / 0.32, 0, 1);
-        captionRef.current.style.opacity = String(c);
-        captionRef.current.style.transform = `translateY(${-p * 90}px)`;
+      // Laptop scene fades out right as we pass through the glass
+      if (laptopSceneRef.current) {
+        laptopSceneRef.current.style.opacity = String(clamp(1 - (p - 0.66) / 0.12, 0, 1));
       }
-      // The console arrives on the other side
+      // Light bloom at the moment of passage
+      if (bloomRef.current) {
+        const d = Math.abs(p - 0.7);
+        bloomRef.current.style.opacity = String(clamp(1 - d / 0.09, 0, 1) * 0.85);
+      }
+      // Landing: the real console, crisp, eases into place
       if (consoleRef.current) {
-        const q = clamp((p - 0.34) / 0.58, 0, 1);
-        const e = 1 - Math.pow(1 - q, 3); // easeOutCubic
+        const q = clamp((p - 0.68) / 0.24, 0, 1);
+        const e = 1 - Math.pow(1 - q, 3);
         consoleRef.current.style.opacity = String(e);
-        consoleRef.current.style.transform = `translateY(${(1 - e) * 11}vh) scale(${0.78 + e * 0.22})`;
+        consoleRef.current.style.transform = `scale(${0.96 + e * 0.04}) translateY(${(1 - e) * 3}vh)`;
+        consoleRef.current.style.pointerEvents = q > 0.5 ? "auto" : "none";
       }
     };
 
@@ -110,40 +129,111 @@ export function ProductShowcase() {
   }, []);
 
   return (
-    <section ref={wrapRef} className="relative h-[280vh] bg-black">
+    <section ref={wrapRef} className="relative h-[300vh] bg-black">
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* The doorway, up close */}
-        <img
-          ref={bgRef}
-          src={heroBgTall}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-[60%_22%] will-change-transform"
-          style={{ transform: "scale(1.08)" }}
-        />
-        <div ref={dimRef} className="absolute inset-0 bg-black" style={{ opacity: 0.25 }} />
-
-        {/* Opening caption */}
-        <div
-          ref={captionRef}
-          className="absolute inset-x-0 top-[30vh] px-6 text-center will-change-transform"
-        >
-          <p className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.24em] text-[#7ec8e3] mb-6">
-            02 — Inside the Product
+        {/* Caption */}
+        <div ref={capRef} className="absolute inset-x-0 top-[12vh] z-20 px-6 text-center will-change-transform">
+          <p className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.24em] text-[#7ec8e3] mb-5">
+            02 — The Machine
           </p>
           <h2 className="mx-auto max-w-2xl text-3xl sm:text-4xl lg:text-5xl font-medium tracking-[-0.02em] leading-[1.12] text-white">
-            This is what the client's team{" "}
-            <em className="font-['Playfair_Display'] italic font-normal">opens every morning.</em>
+            Nine companies run{" "}
+            <em className="font-['Playfair_Display'] italic font-normal text-white/85">
+              inside one machine.
+            </em>
           </h2>
         </div>
 
-        {/* The console, on the other side of the light */}
+        {/* The laptop, running Norfront OS */}
+        <div ref={laptopSceneRef} className="absolute inset-0 z-10 flex items-center justify-center pt-[10vh]">
+          <div
+            ref={laptopRef}
+            className="will-change-transform"
+            style={{ transformOrigin: "50% 46%" }}
+          >
+            {/* Screen */}
+            <div className="relative w-[86vw] max-w-[680px] rounded-[14px] border border-white/[0.14] bg-[#141416] p-[7px] shadow-[0_50px_140px_-30px_rgba(126,200,227,0.25)]">
+              <span className="absolute left-1/2 top-[3px] h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-white/20" />
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[8px] bg-[#08080a]">
+                {/* Wallpaper */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 70% 55% at 50% 38%, rgba(126,200,227,0.09), transparent 65%)",
+                  }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px)",
+                    backgroundSize: "36px 36px",
+                  }}
+                />
+                {/* Menubar */}
+                <div className="relative flex items-center justify-between border-b border-white/[0.06] px-3 py-1.5">
+                  <span className="flex items-center gap-1.5">
+                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" aria-hidden="true">
+                      <path d="M8 5 L17 12 L8 19" fill="none" stroke="#7ec8e3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className="font-['JetBrains_Mono'] text-[8px] uppercase tracking-[0.18em] text-white/50">
+                      Norfront OS
+                    </span>
+                  </span>
+                  <span className="font-['JetBrains_Mono'] text-[8px] text-white/30">
+                    holding.v2 · 2 live · 09:41
+                  </span>
+                </div>
+                {/* App grid — the portfolio as software */}
+                <div className="relative flex h-[calc(100%-26px)] items-center justify-center overflow-hidden">
+                  <div className="grid grid-cols-3 gap-x-7 gap-y-2 sm:gap-x-12 sm:gap-y-4">
+                    {apps.map((app) => (
+                      <div key={app.name} className="flex flex-col items-center gap-1 sm:gap-1.5">
+                        <div
+                          className={`flex h-8 w-8 sm:h-14 sm:w-14 items-center justify-center rounded-lg sm:rounded-xl border font-['JetBrains_Mono'] text-[9px] sm:text-sm ${
+                            app.target
+                              ? "border-[#7ec8e3]/70 bg-[#7ec8e3]/[0.12] text-[#7ec8e3] shadow-[0_0_28px_-2px_rgba(126,200,227,0.55)]"
+                              : app.state === "live"
+                              ? "border-[#7ec8e3]/35 bg-[#7ec8e3]/[0.05] text-[#7ec8e3]/80"
+                              : app.state === "dev"
+                              ? "border-[#D97706]/40 bg-[#D97706]/[0.06] text-[#D97706]/90"
+                              : "border-white/[0.12] bg-white/[0.025] text-white/40"
+                          }`}
+                        >
+                          {app.code}
+                        </div>
+                        <span className={`text-[7px] sm:text-[9px] ${app.target ? "text-white" : "text-white/40"}`}>
+                          {app.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Deck */}
+            <div className="mx-auto h-[9px] w-[112%] -translate-x-[5.5%] rounded-b-[10px] bg-gradient-to-b from-white/[0.14] to-white/[0.04]" />
+          </div>
+        </div>
+
+        {/* Bloom at the moment of passing through the glass */}
+        <div
+          ref={bloomRef}
+          className="pointer-events-none absolute inset-0 z-30"
+          style={{
+            opacity: 0,
+            background: "radial-gradient(ellipse 55% 45% at 50% 46%, rgba(200,235,250,0.9), rgba(126,200,227,0.35) 45%, transparent 70%)",
+          }}
+        />
+
+        {/* Inside the app: the real console, crisp */}
         <div
           ref={consoleRef}
-          className="absolute inset-x-4 sm:inset-x-8 lg:inset-x-16 top-1/2 -translate-y-1/2 will-change-transform"
+          className="absolute inset-x-4 sm:inset-x-8 lg:inset-x-16 top-1/2 z-20 -translate-y-1/2 will-change-transform"
           style={{ opacity: 0 }}
         >
-          <div className="mx-auto max-w-6xl -translate-y-[8vh] sm:-translate-y-[6vh]">
+          <div className="mx-auto max-w-6xl">
             <div className="border border-white/10 bg-[#09090b] shadow-[0_60px_160px_-32px_rgba(126,200,227,0.22)]">
               {/* Window chrome */}
               <div className="flex items-center gap-4 border-b border-white/[0.07] px-4 py-2.5">
@@ -276,7 +366,7 @@ export function ProductShowcase() {
                 Fig. 02
               </span>
               <span className="font-['JetBrains_Mono'] text-[10px] text-white/30">
-                Pulsara complaint-intelligence console — live across 600+ Vision Group stores
+                Inside Pulsara — complaint intelligence, live across 600+ Vision Group stores
               </span>
             </div>
           </div>
