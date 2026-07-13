@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { OpsConsole } from "./OpsConsole";
+import heroBg from "@/assets/hero-bg.png";
 
 const facts = [
   { value: "09", label: "Vertical brands" },
@@ -14,15 +15,17 @@ const facts = [
 export function Hero2() {
   return (
     <section className="relative overflow-hidden bg-black noise-overlay">
-      {/* Layered atmosphere */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 40% at 22% 8%, rgba(126, 200, 227, 0.10), transparent 60%), radial-gradient(ellipse 45% 38% at 85% 68%, rgba(82, 39, 255, 0.07), transparent 65%)",
-        }}
-      />
+      {/* Cinematic backdrop — the doorway of light, walking toward it */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <img
+          src={heroBg}
+          alt=""
+          className="h-full w-full object-cover object-[70%_30%] opacity-50"
+        />
+        {/* Legibility + blend: darken left for copy, fade to black at edges */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black" />
+      </div>
       {/* Fine baseline grid, fading out */}
       <div
         className="pointer-events-none absolute inset-0"

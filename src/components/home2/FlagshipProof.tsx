@@ -47,17 +47,17 @@ export function FlagshipProof() {
           intro="AI complaint intelligence for Italy's largest optical retailer. Gemini-powered classification wired into Oracle and Salesforce, processing 10,000+ complaints in production."
         />
 
-        <div ref={gridRef} className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div
+          ref={gridRef}
+          className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-y border-white/10 divide-y sm:divide-y-0 divide-white/[0.07] lg:divide-x"
+        >
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="card-lift border border-white/10 bg-white/[0.025] p-8 sm:p-9"
-            >
-              <div className="font-['JetBrains_Mono'] text-3xl sm:text-[2.4rem] leading-none text-[#7ec8e3] mb-4 [text-shadow:0_0_28px_rgba(126,200,227,0.35)]">
+            <div key={stat.label} className="px-6 py-10 sm:py-12 text-center">
+              <div className="text-5xl sm:text-[3.4rem] font-light tracking-[-0.03em] leading-none text-white [text-shadow:0_0_44px_rgba(126,200,227,0.4)]">
                 {stat.value}
               </div>
-              <p className="text-sm font-medium text-white mb-1.5">{stat.label}</p>
-              <p className="text-xs text-white/40 leading-relaxed">{stat.detail}</p>
+              <p className="mt-4 text-sm font-medium text-white/85">{stat.label}</p>
+              <p className="mx-auto mt-1 max-w-[16rem] text-xs leading-relaxed text-white/35">{stat.detail}</p>
             </div>
           ))}
         </div>
