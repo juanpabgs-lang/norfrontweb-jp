@@ -355,16 +355,19 @@ function BrandDeckSection() {
 
           {/* Right — the original 3D deck, now commandable */}
           <div className="lg:col-span-7">
-            <div className="relative h-[560px] lg:h-[640px]">
+            <div className="relative h-[620px] lg:h-[760px]">
               <CardSwap
                 ref={deckRef}
-                cardDistance={60}
-                verticalDistance={70}
+                width={460}
+                height={320}
+                cardDistance={28}
+                verticalDistance={50}
+                skewAmount={4}
                 delay={5000}
                 pauseOnHover={true}
                 onCardClick={(i) => pick(i)}
                 onFrontChange={(i) => setSelected(i)}
-                containerClassName="absolute bottom-1/2 right-1/2 transform translate-x-[62%] translate-y-[68%] perspective-[900px] overflow-visible max-[1024px]:translate-x-[50%] max-[1024px]:translate-y-[60%] max-[768px]:scale-[0.72] max-[480px]:scale-[0.6]"
+                containerClassName="absolute bottom-1/2 right-1/2 transform translate-x-[38%] translate-y-[54%] perspective-[1100px] overflow-visible max-[1024px]:translate-x-[48%] max-[768px]:scale-[0.78] max-[480px]:scale-[0.6]"
               >
                 {companies.map((company) => (
                   <Card key={company.name} className="cursor-pointer">
