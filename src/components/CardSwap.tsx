@@ -7,6 +7,7 @@ import React, {
   ReactNode,
   RefObject,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef
 } from 'react';
@@ -20,9 +21,18 @@ export interface CardSwapProps {
   delay?: number;
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
+  /** Fired whenever the front card changes (auto-cycle or manual). */
+  onFrontChange?: (idx: number) => void;
+  /** Override the deck's positioning classes (default anchors bottom-right). */
+  containerClassName?: string;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
   children: ReactNode;
+}
+
+export interface CardSwapHandle {
+  /** Glide a specific card to the front and stop the auto-cycle. */
+  bringToFront: (idx: number) => void;
 }
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -70,7 +80,7 @@ const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
     force3D: true
   });
 
-const CardSwap: React.FC<CardSwapProps> = ({
+const CardSwap = forwardRef<CardSwapHandle, CardSwapProps>(({
   width = 500,
   height = 400,
   cardDistance = 60,
@@ -78,10 +88,12 @@ const CardSwap: React.FC<CardSwapProps> = ({
   delay = 5000,
   pauseOnHover = false,
   onCardClick,
+  onFrontChange,
+  containerClassName,
   skewAmount = 6,
   easing = 'elastic',
   children
-}) => {
+}, ref) => {
   const config =
     easing === 'elastic'
       ? {
@@ -109,6 +121,14 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const intervalRef = useRef<number>(0);
   const container = useRef<HTMLDivElement>(null);
+  const stoppedRef = useRef(false);
+  const apiRef = useRef<CardSwapHandle | null>(null);
+  const onFrontChangeRef = useRef(onFrontChange);
+  onFrontChangeRef.current = onFrontChange;
+
+  useImperativeHandle(ref, () => ({
+    bringToFront: (idx: number) => apiRef.current?.bringToFront(idx)
+  }), []);
 
   useEffect(() => {
     const total = refs.length;
@@ -169,7 +189,35 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
       tl.call(() => {
         order.current = [...rest, front];
+        onFrontChangeRef.current?.(order.current[0]);
       });
+    };
+
+    // Manual control: glide any card to the front, stop the auto-cycle.
+    apiRef.current = {
+      bringToFront: (target: number) => {
+        if (!order.current.includes(target) || order.current[0] === target) return;
+        stoppedRef.current = true;
+        clearInterval(intervalRef.current);
+        tlRef.current?.kill();
+
+        const newOrder = [target, ...order.current.filter((i) => i !== target)];
+        order.current = newOrder;
+
+        const tl = gsap.timeline();
+        tlRef.current = tl;
+        newOrder.forEach((idx, i) => {
+          const el = refs[idx].current!;
+          const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+          tl.set(el, { zIndex: slot.zIndex }, 0);
+          tl.to(
+            el,
+            { x: slot.x, y: slot.y, z: slot.z, duration: 0.85, ease: 'power3.inOut' },
+            i * 0.04
+          );
+        });
+        onFrontChangeRef.current?.(target);
+      }
     };
 
     swap();
@@ -182,6 +230,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
         clearInterval(intervalRef.current);
       };
       const resume = () => {
+        if (stoppedRef.current) return;
         tlRef.current?.play();
         intervalRef.current = window.setInterval(swap, delay);
       };
@@ -213,12 +262,16 @@ const CardSwap: React.FC<CardSwapProps> = ({
   return (
     <div
       ref={container}
-      className="absolute bottom-0 right-0 transform translate-x-[5%] translate-y-[20%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]"
+      className={
+        containerClassName ??
+        "absolute bottom-0 right-0 transform translate-x-[5%] translate-y-[20%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]"
+      }
       style={{ width, height }}
     >
       {rendered}
     </div>
   );
-};
+});
+CardSwap.displayName = 'CardSwap';
 
 export default CardSwap;

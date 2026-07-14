@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
+import CardSwap, { Card, type CardSwapHandle } from "@/components/CardSwap";
 import { ArrowRight, AlertTriangle, Truck } from "lucide-react";
 
 /* ─── Tradara accent colour ─── */
@@ -289,149 +290,116 @@ function ExceptionTicker() {
   );
 }
 
-/* ─── Interactive brand deck: you pick, the stack answers ─── */
+/* ─── Interactive brand deck: the original 3D fan, but you drive it ─── */
 function BrandDeckSection() {
   const [selected, setSelected] = useState(0);
   const [userDrove, setUserDrove] = useState(false);
-  const N = companies.length;
-
-  // Gentle autoplay until the user takes the wheel
-  useEffect(() => {
-    if (userDrove) return;
-    const id = window.setInterval(() => setSelected((s) => (s + 1) % N), 5500);
-    return () => window.clearInterval(id);
-  }, [userDrove, N]);
+  const deckRef = useRef<CardSwapHandle>(null);
 
   const pick = (i: number) => {
     setUserDrove(true);
-    setSelected(i);
+    deckRef.current?.bringToFront(i);
   };
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-black py-20">
-      <div className="container relative z-10 mx-auto px-5 sm:px-6 lg:px-8">
-        {/* Light seam */}
-        <div className="relative mb-5 h-px w-full bg-gradient-to-r from-[#7ec8e3]/50 via-white/10 to-transparent">
-          <span className="absolute -top-[1.5px] left-0 h-1 w-1 rounded-full bg-[#7ec8e3] shadow-[0_0_12px_2px_rgba(126,200,227,0.5)]" />
-        </div>
-        <div className="mb-12 flex items-baseline gap-4">
-          <span className="font-['JetBrains_Mono'] text-xs tracking-[0.2em] text-[#7ec8e3]">03</span>
-          <span className="font-['JetBrains_Mono'] text-xs uppercase tracking-[0.2em] text-white/40">
-            The Portfolio
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14">
+    <section className="relative overflow-hidden py-20 border-t border-foreground/10">
+      <div className="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Left — copy + selector */}
           <div className="lg:col-span-5">
-            <h1 className="mb-5 text-3xl font-medium tracking-tight text-white sm:text-4xl">
-              Nine brands.{" "}
-              <em className="font-['Playfair_Display'] italic font-normal text-white/80">
-                Pick one.
-              </em>
-            </h1>
-            <p className="mb-8 text-sm leading-relaxed text-white/50">
-              Each brand owns a single enterprise workflow. Shared engineering
-              underneath means every launch ships faster than the one before.
-              Select a company to bring it forward.
-            </p>
+            <div className="sticky top-32">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-px bg-foreground/20" />
+                <span className="text-[11px] font-mono font-semibold tracking-[0.18em] uppercase text-muted-foreground">
+                  Portfolio
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight mb-6 text-foreground">
+                9 Brands. 9 Verticals.
+              </h1>
+              <p className="text-base text-muted-foreground leading-relaxed mb-8">
+                Each brand targets a specific enterprise workflow bottleneck.
+                Shared engineering across brands means each new vertical
+                launches faster than the last. Select a company to bring it
+                forward.
+              </p>
 
-            {/* Brand selector */}
-            <div className="border-t border-white/10">
-              {companies.map((c, i) => (
-                <button
-                  key={c.name}
-                  onClick={() => pick(i)}
-                  className={`group relative grid w-full grid-cols-[2rem_1fr_auto] items-center gap-3 border-b border-white/[0.07] px-2 py-2.5 text-left transition-all duration-300 ${
-                    i === selected ? "bg-white/[0.05] pl-3.5" : "hover:bg-white/[0.025]"
-                  } before:absolute before:bottom-0 before:left-0 before:top-0 before:w-px before:transition-colors before:duration-300 ${
-                    i === selected ? "before:bg-[#7ec8e3]" : "before:bg-transparent"
-                  }`}
-                >
-                  <span className="font-['JetBrains_Mono'] text-[10px] text-white/25">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className={`text-sm font-medium transition-colors ${i === selected ? "text-white" : "text-white/55 group-hover:text-white/80"}`}>
-                    {c.name}
-                    <span className="ml-2 hidden text-xs font-normal text-white/30 sm:inline">{c.vertical}</span>
-                  </span>
-                  <span className={`h-1.5 w-1.5 rounded-full ${statusDotClass(c.status)}`} />
-                </button>
-              ))}
+              {/* Brand selector */}
+              <div className="border-t border-foreground/10 mb-6">
+                {companies.map((c, i) => (
+                  <button
+                    key={c.name}
+                    onClick={() => pick(i)}
+                    className={`group relative grid w-full grid-cols-[2rem_1fr_auto] items-center gap-3 border-b border-foreground/[0.08] px-2 py-2 text-left transition-all duration-300 ${
+                      i === selected ? "bg-white/[0.05] pl-3.5" : "hover:bg-white/[0.02]"
+                    } before:absolute before:bottom-0 before:left-0 before:top-0 before:w-px before:transition-colors before:duration-300 ${
+                      i === selected ? "before:bg-[#7ec8e3]" : "before:bg-transparent"
+                    }`}
+                  >
+                    <span className="font-mono text-[10px] text-muted-foreground/50">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className={`text-sm font-medium transition-colors ${i === selected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground/80"}`}>
+                      {c.name}
+                      <span className="ml-2 hidden text-xs font-normal text-muted-foreground/50 xl:inline">{c.vertical}</span>
+                    </span>
+                    <span className={`h-1.5 w-1.5 rounded-full ${statusDotClass(c.status)}`} />
+                  </button>
+                ))}
+              </div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/50">
+                {userDrove ? "Manual control" : "Auto-cycling — select a brand to take over"}
+              </p>
             </div>
-
-            <p className="mt-5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.16em] text-white/25">
-              {userDrove ? "Manual control" : "Auto-cycling — click any brand to take over"}
-            </p>
           </div>
 
-          {/* Right — the deck */}
+          {/* Right — the original 3D deck, now commandable */}
           <div className="lg:col-span-7">
-            <div className="relative mx-auto h-[480px] max-w-[560px] sm:h-[520px] lg:mt-6">
-              {companies.map((c, i) => {
-                const d = (i - selected + N) % N; // depth behind the front card
-                const isFront = d === 0;
-                return (
-                  <div
-                    key={c.name}
-                    onClick={() => !isFront && pick(i)}
-                    onKeyDown={(e) => { if (!isFront && (e.key === "Enter" || e.key === " ")) pick(i); }}
-                    role={isFront ? undefined : "button"}
-                    tabIndex={isFront ? undefined : 0}
-                    aria-label={isFront ? undefined : `Bring ${c.name} forward`}
-                    className={`absolute bottom-0 left-0 w-full rounded-xl border text-left backdrop-blur-sm transition-all duration-500 [transition-timing-function:cubic-bezier(0.3,0.7,0,1)] ${
-                      isFront
-                        ? "cursor-default border-[#7ec8e3]/30 bg-gradient-to-b from-[#121216] to-[#0a0a0c] shadow-[0_32px_90px_-20px_rgba(126,200,227,0.25)]"
-                        : "cursor-pointer border-white/10 bg-gradient-to-b from-[#101014] to-[#0a0a0c] hover:border-white/25"
-                    }`}
-                    style={{
-                      transform: `translate(${d * 24}px, ${-d * 30}px) scale(${1 - d * 0.035})`,
-                      zIndex: 40 - d,
-                      opacity: d > 6 ? 0 : 1 - d * 0.11,
-                      pointerEvents: d > 6 ? "none" : "auto",
-                    }}
-                  >
-                    <div className="flex h-full flex-col justify-between gap-4 p-7 sm:p-8">
+            <div className="relative h-[560px] lg:h-[640px]">
+              <CardSwap
+                ref={deckRef}
+                cardDistance={60}
+                verticalDistance={70}
+                delay={5000}
+                pauseOnHover={true}
+                onCardClick={(i) => pick(i)}
+                onFrontChange={(i) => setSelected(i)}
+                containerClassName="absolute bottom-1/2 right-1/2 transform translate-x-[62%] translate-y-[68%] perspective-[900px] overflow-visible max-[1024px]:translate-x-[50%] max-[1024px]:translate-y-[60%] max-[768px]:scale-[0.72] max-[480px]:scale-[0.6]"
+              >
+                {companies.map((company) => (
+                  <Card key={company.name} className="cursor-pointer">
+                    <div className="p-8 flex flex-col gap-4 h-full justify-between">
                       <div>
-                        <div className="mb-1 flex flex-wrap items-center gap-3">
-                          <h3 className="text-2xl font-semibold text-white">{c.name}</h3>
-                          <span className={`border px-2 py-0.5 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.12em] ${statusChipClass(c.status)}`}>
-                            {c.status}
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="text-2xl font-semibold text-white">
+                            {company.name}
+                          </h3>
+                          <span className={`text-[10px] font-mono tracking-[0.12em] uppercase px-2 py-0.5 border ${statusChipClass(company.status)}`}>
+                            {company.status}
                           </span>
                         </div>
-                        <span className="mb-3 block font-['JetBrains_Mono'] text-[11px] tracking-[0.08em] text-white/40">
-                          {c.vertical}
-                        </span>
-                        <p className={`text-sm leading-relaxed text-white/65 transition-opacity duration-500 sm:text-base ${isFront ? "opacity-100" : "opacity-0"}`}>
-                          {c.description}
+                        <span className="text-[11px] font-mono tracking-[0.08em] text-white/40 block mb-3">{company.vertical}</span>
+                        <p className="text-base text-white/70 leading-relaxed">
+                          {company.description}
                         </p>
                       </div>
-                      <div className={`flex items-center justify-between border-t border-white/10 pt-4 transition-opacity duration-500 ${isFront ? "opacity-100" : "opacity-0"}`}>
-                        <span className="font-['JetBrains_Mono'] text-xs uppercase tracking-widest text-white/40">
+                      <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                        <span className="text-xs font-mono tracking-widest uppercase text-white/40">
                           Norfront Group
                         </span>
                         <Link
                           to="/contact"
+                          onClick={(e) => e.stopPropagation()}
                           className="group inline-flex items-center gap-1.5 text-xs font-medium text-[#7ec8e3]/80 transition-colors hover:text-[#7ec8e3]"
                         >
-                          Talk about {c.name}
+                          Talk about {company.name}
                           <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
                         </Link>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Figure caption */}
-            <div className="mt-6 flex items-baseline gap-3">
-              <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.18em] text-[#7ec8e3]/70">
-                Fig. 03
-              </span>
-              <span className="font-['JetBrains_Mono'] text-[10px] text-white/30">
-                The nine-brand deck — 2 live · 1 in development · 6 designed
-              </span>
+                  </Card>
+                ))}
+              </CardSwap>
             </div>
           </div>
         </div>
