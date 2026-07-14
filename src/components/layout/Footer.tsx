@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
           <div className="md:col-span-4">
             <div className="mb-4 flex items-start gap-3">
-              <NorfrontMark className="mt-1 h-6 w-6 text-white" />
+              <NorfrontMark className="mt-0.5 h-9 w-auto" />
               <div>
                 <span className="text-lg font-semibold tracking-[-0.01em] text-white">Norfront Group</span>
                 <span className="block font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-white/35 mt-1">

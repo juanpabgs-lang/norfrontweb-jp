@@ -20,16 +20,16 @@ export function ClosingCTA() {
 
       <div ref={ref} className="container relative mx-auto px-5 sm:px-6 lg:px-8 text-center">
         {/* Backlit Norfront mark — the Vercel-triangle moment */}
-        <div className="relative mx-auto mb-10 flex h-24 w-24 items-center justify-center">
+        <div className="relative mx-auto mb-10 flex h-36 w-36 items-center justify-center">
           <div
             className="absolute inset-0"
             aria-hidden="true"
             style={{
-              background: "radial-gradient(circle at 50% 38%, rgba(126,200,227,0.5), rgba(126,200,227,0.12) 42%, transparent 68%)",
-              filter: "blur(14px)",
+              background: "radial-gradient(circle at 50% 42%, rgba(126,200,227,0.55), rgba(126,200,227,0.14) 44%, transparent 70%)",
+              filter: "blur(16px)",
             }}
           />
-          <NorfrontMark className="relative h-14 w-14 text-white" />
+          <NorfrontMark className="relative h-24 w-auto" />
         </div>
         <p className="font-['JetBrains_Mono'] text-[11px] sm:text-xs uppercase tracking-[0.24em] text-white/40 mb-8">
           Start Here

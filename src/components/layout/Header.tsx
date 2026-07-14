@@ -33,7 +33,7 @@ export function Header() {
         <nav className="pointer-events-auto hidden md:block border-b border-white/[0.06] bg-black/65 backdrop-blur-xl">
           <div className="container mx-auto flex h-14 items-center justify-between px-5 sm:px-6 lg:px-8">
             <Link to="/" className="flex items-center gap-2.5 transition-opacity duration-300 hover:opacity-80">
-              <NorfrontMark className="h-4 w-4 text-white" />
+              <NorfrontMark className="h-5 w-auto" />
               <span className="text-sm font-semibold tracking-tight text-white leading-none">Norfront Group</span>
               <span className="hidden lg:inline font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.2em] text-white/30 leading-none">
                 AI Venture Holdings

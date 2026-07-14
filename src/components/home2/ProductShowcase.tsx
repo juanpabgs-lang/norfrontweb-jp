@@ -175,7 +175,7 @@ export function ProductShowcase() {
                 {/* Menubar */}
                 <div className="relative flex items-center justify-between border-b border-white/[0.06] px-3 py-1.5">
                   <span className="flex items-center gap-1.5">
-                    <NorfrontMark className="h-2.5 w-2.5 text-[#7ec8e3]" />
+                    <NorfrontMark className="h-2.5 w-auto" />
                     <span className="font-['JetBrains_Mono'] text-[8px] uppercase tracking-[0.18em] text-white/50">
                       Norfront OS
                     </span>
