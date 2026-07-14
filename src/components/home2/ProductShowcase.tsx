@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Inbox, ListFilter, AlertTriangle, BarChart3, Settings2, Plug, Search } from "lucide-react";
+import { NorfrontMark } from "@/components/NorfrontMark";
 
 type Row = {
   id: string;
@@ -174,9 +175,7 @@ export function ProductShowcase() {
                 {/* Menubar */}
                 <div className="relative flex items-center justify-between border-b border-white/[0.06] px-3 py-1.5">
                   <span className="flex items-center gap-1.5">
-                    <svg viewBox="0 0 24 24" className="h-2.5 w-2.5" aria-hidden="true">
-                      <path d="M8 5 L17 12 L8 19" fill="none" stroke="#7ec8e3" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <NorfrontMark className="h-2.5 w-2.5 text-[#7ec8e3]" />
                     <span className="font-['JetBrains_Mono'] text-[8px] uppercase tracking-[0.18em] text-white/50">
                       Norfront OS
                     </span>

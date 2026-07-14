@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { NorfrontMark } from "@/components/NorfrontMark";
 import { useReveal } from "./reveal";
 
 // The close: one question, one action. Mercury's honesty, Anduril's brevity.
@@ -28,24 +29,7 @@ export function ClosingCTA() {
               filter: "blur(14px)",
             }}
           />
-          <svg viewBox="0 0 64 64" className="relative h-14 w-14" aria-hidden="true">
-            <path
-              d="M20 14 L44 32 L20 50"
-              fill="none"
-              stroke="#0a0a0c"
-              strokeWidth="11"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M20 14 L44 32 L20 50"
-              fill="none"
-              stroke="white"
-              strokeWidth="7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <NorfrontMark className="relative h-14 w-14 text-white" />
         </div>
         <p className="font-['JetBrains_Mono'] text-[11px] sm:text-xs uppercase tracking-[0.24em] text-white/40 mb-8">
           Start Here

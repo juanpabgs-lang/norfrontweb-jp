@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { NorfrontMark } from "@/components/NorfrontMark";
 
 export function Footer() {
   return (
@@ -6,11 +7,14 @@ export function Footer() {
       <div className="container mx-auto px-5 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
           <div className="md:col-span-4">
-            <div className="mb-4">
-              <span className="text-lg font-semibold tracking-[-0.01em] text-white">Norfront Group</span>
-              <span className="block font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-white/35 mt-1">
-                AI Venture Holdings
-              </span>
+            <div className="mb-4 flex items-start gap-3">
+              <NorfrontMark className="mt-1 h-6 w-6 text-white" />
+              <div>
+                <span className="text-lg font-semibold tracking-[-0.01em] text-white">Norfront Group</span>
+                <span className="block font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-white/35 mt-1">
+                  AI Venture Holdings
+                </span>
+              </div>
             </div>
             <p className="text-sm text-muted-foreground/60 leading-relaxed max-w-xs">
               A holding company building specialized AI companies for enterprise operations. One vertical at a time.
