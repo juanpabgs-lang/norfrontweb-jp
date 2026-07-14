@@ -367,7 +367,7 @@ function BrandDeckSection() {
                 pauseOnHover={true}
                 onCardClick={(i) => pick(i)}
                 onFrontChange={(i) => setSelected(i)}
-                containerClassName="absolute bottom-1/2 right-1/2 transform translate-x-[27%] translate-y-[112%] scale-[0.92] perspective-[1100px] overflow-visible max-[1024px]:translate-x-[40%] max-[768px]:scale-[0.72] max-[480px]:scale-[0.56]"
+                containerClassName="absolute bottom-1/2 right-1/2 transform translate-x-[27%] translate-y-[112%] scale-[0.92] perspective-[1100px] overflow-visible max-[1360px]:scale-[0.8] max-[1024px]:translate-x-[40%] max-[1024px]:scale-[0.85] max-[768px]:scale-[0.72] max-[480px]:scale-[0.56]"
               >
                 {companies.map((company) => (
                   <Card key={company.name} className="cursor-pointer">
