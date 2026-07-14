@@ -9,7 +9,7 @@ export default function Privacy() {
 
   return (
     <Layout>
-      <section className="pt-28 pb-16 sm:pt-36 lg:pt-44 lg:pb-24 relative z-10">
+      <section className="bg-black pt-28 pb-16 sm:pt-36 lg:pt-44 lg:pb-24 relative z-10">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="flex items-center gap-4 mb-6">
@@ -81,7 +81,7 @@ export default function Privacy() {
                   <h2 className="text-lg font-medium mb-3">Your Rights</h2>
                   <p className="text-sm text-muted-foreground leading-[1.8]">
                     You have the right to access, correct, or delete your personal information. 
-                    To exercise these rights, please contact us at privacy@norfront.com.
+                    To exercise these rights, please contact us at privacy@norfront.group.
                   </p>
                 </section>
 
@@ -89,7 +89,7 @@ export default function Privacy() {
                   <h2 className="text-lg font-medium mb-3">Contact Us</h2>
                   <p className="text-sm text-muted-foreground leading-[1.8]">
                     If you have any questions about this Privacy Policy, please contact us at 
-                    privacy@norfront.com.
+                    privacy@norfront.group.
                   </p>
                 </section>
               </div>

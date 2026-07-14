@@ -3,19 +3,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Aurora } from "@/components/Aurora";
-import { useElementAnimation, useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useReveal } from "@/components/home2/reveal";
+
+const nextSteps = [
+  {
+    step: "01",
+    title: "We read it the same day",
+    detail: "Your message goes to the people who build, not a sales queue.",
+  },
+  {
+    step: "02",
+    title: "Scope assessment in 1–2 days",
+    detail: "A preliminary read on fit, approach, and what four weeks buys.",
+  },
+  {
+    step: "03",
+    title: "One call to decide",
+    detail: "If it's a fit, we scope week one. If it isn't, we say so and save you the quarter.",
+  },
+];
+
+const inputClass =
+  "bg-white/[0.03] border-white/12 rounded-none h-11 text-sm text-white placeholder:text-white/25 focus:border-[#7ec8e3]/50 focus-visible:ring-[#7ec8e3]/20 transition-colors";
 
 export default function Contact() {
   const { toast } = useToast();
-  const titleRef = useElementAnimation(0);
-  const subtitleRef = useElementAnimation(0.1);
-  const formRef = useScrollAnimation({ staggerDelay: 0.2 });
+  const leftRef = useReveal();
+  const formRef = useReveal(0.15);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,23 +41,17 @@ export default function Contact() {
     problem: "",
   });
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch("https://formspree.io/f/xzzavgqp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      
+
       if (response.ok) {
         toast({ title: "Message received", description: "We'll be in touch soon." });
         setFormData({ name: "", email: "", company: "", problem: "" });
@@ -49,7 +61,7 @@ export default function Contact() {
     } catch {
       toast({ title: "Something went wrong", description: "Please try again or email us directly.", variant: "destructive" });
     }
-    
+
     setIsSubmitting(false);
   };
 
@@ -59,88 +71,130 @@ export default function Contact() {
 
   return (
     <Layout>
-      {/* Aurora */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" style={{ maskImage: 'linear-gradient(to bottom, black 0%, black 30%, transparent 80%)', WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 30%, transparent 80%)' }}>
-        <Aurora scrollY={scrollY} variant="cosmic" />
-        <div className="absolute inset-0 bg-background/65 dark:bg-background/55 backdrop-blur-xl" />
-      </div>
+      <div className="relative bg-black noise-overlay">
+        <div
+          className="pointer-events-none absolute inset-0"
+          aria-hidden="true"
+          style={{
+            background:
+              "radial-gradient(ellipse 55% 45% at 20% 0%, rgba(126,200,227,0.08), transparent 62%), radial-gradient(ellipse 45% 40% at 90% 90%, rgba(126,200,227,0.05), transparent 65%)",
+          }}
+        />
 
-      {/* Two-column layout */}
-      <section className="relative z-10 min-h-screen flex items-center px-5 py-24 sm:py-32">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 max-w-5xl">
-            {/* Left column - context */}
-            <div className="lg:col-span-5 flex flex-col justify-center">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-8 h-px bg-foreground/20" />
-                <span className="text-[11px] font-semibold tracking-[0.16em] uppercase text-muted-foreground/60">
-                  Contact
-                </span>
+        <section className="relative z-10 flex min-h-screen items-center px-0 py-28 sm:py-36">
+          <div className="container mx-auto px-5 sm:px-6 lg:px-8">
+            <div className="grid max-w-6xl grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-16">
+              {/* Left — the pitch and the promise */}
+              <div ref={leftRef} className="lg:col-span-5 flex flex-col justify-center">
+                <p className="mb-7 flex items-center gap-3">
+                  <span className="h-px w-8 bg-[#7ec8e3]/60" />
+                  <span className="font-['JetBrains_Mono'] text-[11px] uppercase tracking-[0.24em] text-white/45">
+                    Contact
+                  </span>
+                </p>
+                <h1 className="mb-5 text-3xl sm:text-4xl font-medium tracking-[-0.02em] leading-[1.1]">
+                  <span className="headline-sheen">Tell us which workflow</span>{" "}
+                  <em className="font-['Playfair_Display'] italic font-normal text-[#7ec8e3]">is breaking.</em>
+                </h1>
+                <p className="mb-10 text-sm sm:text-base leading-relaxed text-white/50">
+                  Describe the operational bottleneck — the manual process
+                  costing you the most time, money, or errors.
+                </p>
+
+                {/* What happens next */}
+                <div className="space-y-0 border-t border-white/10">
+                  {nextSteps.map((s) => (
+                    <div key={s.step} className="grid grid-cols-[2.5rem_1fr] gap-3 border-b border-white/[0.07] py-4">
+                      <span className="font-['JetBrains_Mono'] text-[11px] tracking-[0.16em] text-[#7ec8e3]">
+                        {s.step}
+                      </span>
+                      <div>
+                        <p className="text-sm font-medium text-white">{s.title}</p>
+                        <p className="mt-0.5 text-xs leading-relaxed text-white/40">{s.detail}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="mt-8 text-sm text-white/40">
+                  Or email directly:{" "}
+                  <a
+                    href="mailto:tomas.madero@norfront.group"
+                    className="text-white/70 underline underline-offset-4 decoration-white/20 transition-colors hover:text-[#7ec8e3] hover:decoration-[#7ec8e3]/40"
+                  >
+                    tomas.madero@norfront.group
+                  </a>
+                </p>
               </div>
-              <h1 ref={titleRef as React.RefObject<HTMLHeadingElement>} className="text-2xl sm:text-3xl lg:text-4xl font-medium tracking-[-0.02em] leading-[1.1] mb-4">
-                Tell us which workflow is breaking
-              </h1>
-              <p ref={subtitleRef as React.RefObject<HTMLParagraphElement>} className="text-sm text-muted-foreground leading-relaxed mb-6">
-                Describe the operational bottleneck. We'll respond within 1–2 business days with a preliminary scope assessment.
-              </p>
-              <p className="text-sm text-muted-foreground/60">
-                Or email us directly at{" "}
-                <a href="mailto:tomas.madero@norfront.group" className="text-foreground/80 hover:text-foreground underline underline-offset-2 transition-colors">
-                  tomas.madero@norfront.group
-                </a>
-              </p>
-            </div>
 
-            {/* Right column - form */}
-            <div className="lg:col-span-6 lg:col-start-7">
-              <div ref={formRef as React.RefObject<HTMLDivElement>}>
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="name" className="text-xs font-medium tracking-wide">Name</Label>
-                    <Input
-                      id="name" name="name" value={formData.name} onChange={handleChange}
-                      placeholder="Your name" required
-                      className="bg-card/50 border-border/50 rounded-none h-11 text-sm placeholder:text-muted-foreground/30 focus:border-foreground/30"
-                    />
+              {/* Right — the form, glass */}
+              <div ref={formRef} className="lg:col-span-6 lg:col-start-7">
+                <div className="border border-white/10 bg-white/[0.02] p-7 sm:p-9 backdrop-blur-sm">
+                  <div className="mb-7 flex items-center justify-between">
+                    <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.18em] text-white/40">
+                      Scope Request
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#7ec8e3] animate-pulse" />
+                      <span className="font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.14em] text-white/35">
+                        1–2 day response
+                      </span>
+                    </span>
                   </div>
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="name" className="text-xs font-medium tracking-wide text-white/70">Name</Label>
+                        <Input
+                          id="name" name="name" value={formData.name} onChange={handleChange}
+                          placeholder="Your name" required
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="email" className="text-xs font-medium tracking-wide text-white/70">Email</Label>
+                        <Input
+                          id="email" name="email" type="email" value={formData.email} onChange={handleChange}
+                          placeholder="you@company.com" required
+                          className={inputClass}
+                        />
+                      </div>
+                    </div>
 
-                  <div className="space-y-1.5">
-                    <Label htmlFor="email" className="text-xs font-medium tracking-wide">Email</Label>
-                    <Input
-                      id="email" name="email" type="email" value={formData.email} onChange={handleChange}
-                      placeholder="you@company.com" required
-                      className="bg-card/50 border-border/50 rounded-none h-11 text-sm placeholder:text-muted-foreground/30 focus:border-foreground/30"
-                    />
-                  </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="company" className="text-xs font-medium tracking-wide text-white/70">Company</Label>
+                      <Input
+                        id="company" name="company" value={formData.company} onChange={handleChange}
+                        placeholder="Your company name"
+                        className={inputClass}
+                      />
+                    </div>
 
-                  <div className="space-y-1.5">
-                    <Label htmlFor="company" className="text-xs font-medium tracking-wide">Company</Label>
-                    <Input
-                      id="company" name="company" value={formData.company} onChange={handleChange}
-                      placeholder="Your company name"
-                      className="bg-card/50 border-border/50 rounded-none h-11 text-sm placeholder:text-muted-foreground/30 focus:border-foreground/30"
-                    />
-                  </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="problem" className="text-xs font-medium tracking-wide text-white/70">The workflow</Label>
+                      <Textarea
+                        id="problem" name="problem" value={formData.problem} onChange={handleChange}
+                        placeholder="What manual process is costing you the most time, money, or errors?" rows={5} required
+                        className={`${inputClass} h-auto resize-none`}
+                      />
+                    </div>
 
-                  <div className="space-y-1.5">
-                    <Label htmlFor="problem" className="text-xs font-medium tracking-wide">Message</Label>
-                    <Textarea
-                      id="problem" name="problem" value={formData.problem} onChange={handleChange}
-                      placeholder="What manual process is costing you the most time, money, or errors?" rows={5} required
-                      className="bg-card/50 border-border/50 resize-none rounded-none text-sm placeholder:text-muted-foreground/30 focus:border-foreground/30"
-                    />
-                  </div>
-
-                  <Button type="submit" size="lg" disabled={isSubmitting} className="w-full rounded-none h-11 text-sm bg-foreground text-background hover:bg-foreground/90">
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                    <ArrowRight size={16} />
-                  </Button>
-                </form>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      disabled={isSubmitting}
+                      className="h-12 w-full rounded-none bg-white text-sm font-medium text-black transition-all duration-300 hover:bg-[#e9f5fa] hover:shadow-[0_0_32px_-8px_rgba(126,200,227,0.55)]"
+                    >
+                      {isSubmitting ? "Sending…" : "Send Message"}
+                      <ArrowRight size={16} />
+                    </Button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </Layout>
   );
 }

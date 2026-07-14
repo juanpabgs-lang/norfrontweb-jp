@@ -9,7 +9,7 @@ export default function Terms() {
 
   return (
     <Layout>
-      <section className="pt-28 pb-16 sm:pt-36 lg:pt-44 lg:pb-24 relative z-10">
+      <section className="bg-black pt-28 pb-16 sm:pt-36 lg:pt-44 lg:pb-24 relative z-10">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="flex items-center gap-4 mb-6">
@@ -94,7 +94,7 @@ export default function Terms() {
                 <section>
                   <h2 className="text-lg font-medium mb-3">Contact</h2>
                   <p className="text-sm text-muted-foreground leading-[1.8]">
-                    For questions about these Terms of Service, please contact us at legal@norfront.com.
+                    For questions about these Terms of Service, please contact us at legal@norfront.group.
                   </p>
                 </section>
               </div>
