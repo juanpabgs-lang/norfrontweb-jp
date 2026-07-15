@@ -1,73 +1,53 @@
-# Welcome to your Lovable project
+# Norfront Group — Website v2
 
-## Project info
+The new norfront.group. Joint redesign by JP (`juanpabgs-lang`) and Tomas (`tomasbm21`).
+When finished, this repo replaces the current production site.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Stack
 
-## How can I edit this code?
+Vite · React · TypeScript · Tailwind · shadcn/ui. Deployed on Vercel
+(`vercel.json` includes the SPA rewrite so deep links work).
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Run locally
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npm install
+npm run dev   # http://localhost:8080
 ```
 
-**Edit a file directly in GitHub**
+## How we work
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `main` is always deployable — Vercel previews build from every push.
+- Work on branches (`jp/...`, `tomas/...`), merge via PR.
+- Pull `main` before starting; keep branches short-lived.
 
-**Use GitHub Codespaces**
+## Design system (read before adding sections)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The site speaks one language — "the operating statement":
 
-## What technologies are used for this project?
+- Pure black surfaces, hairline `white/10` borders, light-seam section rules
+  (gradient from `#7ec8e3` with a glowing origin tick).
+- Type: Inter (UI), JetBrains Mono (eyebrows, data, annotations),
+  Playfair Display italic (one accent phrase per heading).
+- Accent `#7ec8e3` is reserved for live/proof/data. Tradara amber `#D97706`.
+- Sections are numbered like a report (`01 — Production Proof`) and visuals
+  carry `Fig.` captions.
+- Reveal animation: `useReveal` from `src/components/home2/reveal.ts` —
+  calm fade+rise, no bounce, no blur.
+- The brand mark is `src/components/NorfrontMark.tsx` (exact crop from the
+  logo file — don't redraw it).
 
-This project is built with:
+## Key custom pieces
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- `src/components/home2/` — homepage sections (hero + OpsConsole, machine
+  zoom in `ProductShowcase`, marquee, stat band, portfolio ledger, FIG
+  schematics, closing CTA).
+- `src/components/CardSwap.tsx` — 3D deck, extended with `bringToFront()`
+  for the interactive portfolio page.
+- Forms post to Formspree (contact: `xzzavgqp`, careers: `mdawrvqo`).
 
-## How can I deploy this project?
+## Publishing checklist (when we call it done)
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. Vercel project → point the `norfront.group` domain here.
+2. Verify OG image + deep links on the production URL.
+3. Archive the old repo's deployment.
